@@ -1,35 +1,36 @@
-# Terraform Projects
+# 🌍 Terraform Projects
 
-Hands-on Terraform projects, built while learning infrastructure as code on AWS.
+Hands-on AWS infrastructure projects built while learning Terraform — from basic resource creation to remote state management.
 
-## Projects
+## 📂 Projects
 
-| Project | Concepts |
-|---|---|
-| [Launch_EC2](./Launch_EC2) | Variables, outputs, `terraform.tfvars` |
+### 01 — [Launch_EC2](./Launch_EC2)
+Provisions a single AWS EC2 instance using Terraform. The AMI, instance type, region, SSH key pair, and instance name are all parameterized through **variables** (`variables.tf`) instead of being hardcoded, with actual values supplied via `terraform.tfvars`. After `apply`, **outputs** (`outputs.tf`) print the instance's ID, public IP, and public DNS — so you don't have to check the AWS console to get connection details.
 
-## Prerequisites
+*(More projects added as I progress — remote state management with S3 + DynamoDB, custom security groups, custom VPC, and more.)*
 
-- Terraform installed
-- AWS CLI configured (`aws configure`) with valid credentials
-- An existing AWS key pair (for SSH access)
+## ⚙️ Prerequisites
 
-## General Usage
+- [Terraform](https://developer.hashicorp.com/terraform/downloads) installed
+- AWS CLI configured with valid credentials (`aws configure`)
+- An existing AWS key pair for SSH access
 
-Each project folder is self-contained. To run one:
+## 🚀 Usage
 
 ```bash
 cd <project-folder>
-cp terraform.tfvars.example terraform.tfvars   # fill in your own values
+cp terraform.tfvars.example terraform.tfvars   # add your own values
 terraform init
 terraform plan
 terraform apply
+```
 
-# when done
+When you're done:
+```bash
 terraform destroy
 ```
 
-## Note
+## 🔒 Security note
 
-`terraform.tfvars`, `*.tfstate`, and `.terraform/` are gitignored on purpose — they contain real, environment-specific values and local state. Only `*.tfvars.example` files (placeholder values) are committed.
+`terraform.tfvars`, `*.tfstate`, and `.terraform/` are gitignored — they hold real, environment-specific values and state, and should never be committed. Only `*.tfvars.example` files with placeholder values are tracked.
 
