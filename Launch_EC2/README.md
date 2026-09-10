@@ -1,36 +1,49 @@
-# 🌍 Terraform Projects
+# Launch EC2
 
-Hands-on AWS infrastructure projects built while learning Terraform — from basic resource creation to remote state management.
+Provisions a single AWS EC2 instance using Terraform, with all key values parameterized through variables instead of hardcoded.
 
-## 📂 Projects
+## What it does
 
-### 01 — [Launch_EC2](./Launch_EC2)
-Provisions a single AWS EC2 instance using Terraform. The AMI, instance type, region, SSH key pair, and instance name are all parameterized through **variables** (`variables.tf`) instead of being hardcoded, with actual values supplied via `terraform.tfvars`. After `apply`, **outputs** (`outputs.tf`) print the instance's ID, public IP, and public DNS — so you don't have to check the AWS console to get connection details.
+- Launches one `aws_instance` in the region/AMI/instance type you specify
+- Attaches the SSH key pair you specify
+- Tags the instance with a custom name
+- Prints the instance ID, public IP, and public DNS as outputs after `apply`
 
-*(More projects added as I progress — remote state management with S3 + DynamoDB, custom security groups, custom VPC, and more.)*
+## Files
 
-## ⚙️ Prerequisites
+| File | Purpose |
+|---|---|
+| `main.tf` | Provider and EC2 resource definition |
+| `variables.tf` | Input variable declarations |
+| `outputs.tf` | Outputs: instance ID, public IP, public DNS |
+| `terraform.tfvars.example` | Placeholder values — copy to `terraform.tfvars` and fill in your own |
 
-- [Terraform](https://developer.hashicorp.com/terraform/downloads) installed
-- AWS CLI configured with valid credentials (`aws configure`)
-- An existing AWS key pair for SSH access
-
-## 🚀 Usage
+## Usage
 
 ```bash
-cd <project-folder>
-cp terraform.tfvars.example terraform.tfvars   # add your own values
+cp terraform.tfvars.example terraform.tfvars   # add your real values
 terraform init
 terraform plan
 terraform apply
 ```
 
-When you're done:
+When done:
 ```bash
 terraform destroy
 ```
 
-## 🔒 Security note
+## Variables
 
-`terraform.tfvars`, `*.tfstate`, and `.terraform/` are gitignored — they hold real, environment-specific values and state, and should never be committed. Only `*.tfvars.example` files with placeholder values are tracked.
+| Name | Description | Default |
+|---|---|---|
+| `aws_region` | AWS region | `ap-south-1` |
+| `ami_id` | AMI ID for the instance | none (required) |
+| `instance_type` | EC2 instance type | `t2.micro` |
+| `key_name` | Existing AWS key pair name | none (required) |
+| `instance_name` | Name tag for the instance | `MyTerraformInstance` |
 
+## Outputs
+
+- `instance_id`
+- `instance_public_ip`
+- `instance_public_dns`
